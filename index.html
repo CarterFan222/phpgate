@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jesse's Gate</title>
+  <style>
+    :root {
+      --background: rgba(255, 255, 255, 0.05);
+      --border: rgba(255, 255, 255, 0.2);
+      --blur: blur(20px);
+      --text: #ffffff;
+      --accent: #00bcd4;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+    .card {
+      background: var(--background);
+      backdrop-filter: var(--blur);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    }
+    .input-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+    input[type="text"] {
+      padding: 0.8rem;
+      font-size: 1rem;
+      border-radius: 0.8rem;
+      border: none;
+      outline: none;
+      flex-grow: 1;
+    }
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 0.8rem;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+    button:hover {
+      background: #008c9e;
+    }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 1rem;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Jesse's Gate</h1>
+  <div class="card">
+    <div class="input-group">
+      <input id="urlInput" type="text" placeholder="Enter a URL (e.g. https://example.com)" />
+      <button onclick="handleGo()">Go</button>
+    </div>
+    <iframe id="siteFrame" src="about:blank"></iframe>
+  </div>
+
+  <script>
+    // Change this to your deployed Vercel proxy URL
+    const proxyURL = "/api/proxy?url=";
+
+    function handleGo() {
+      const input = document.getElementById("urlInput");
+      const frame = document.getElementById("siteFrame");
+      let url = input.value.trim();
+
+      if (!url) return;
+
+      // Ensure URL starts with http(s)://
+      if (!/^https?:\/\//i.test(url)) {
+        url = "https://" + url;
+      }
+
+      // Encode and build proxied URL
+      frame.src = proxyURL + encodeURIComponent(url);
+    }
+  </script>
+</body>
+</html>
